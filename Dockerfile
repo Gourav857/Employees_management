@@ -4,7 +4,8 @@ WORKDIR /app
 
 # Copy pom.xml aur source code dependencies download karne ke liye
 COPY pom.xml .
-RUN mnv dependency:go-offline -B
+# FIXED THE TYPO HERE: Changed 'mnv' to 'mvn'
+RUN mvn dependency:go-offline -B
 
 # Copy source code aur build package generated karo (Tests skip kar rahe hain jaldbaazi me deployment ke liye)
 COPY src ./src
