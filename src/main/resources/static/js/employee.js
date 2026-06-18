@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = sessionStorage.getItem("userEmail") || "rahul@ems.com";
 
     try {
-        const eventSource = new EventSource(`/api/notifications/subscribe/${email}`);
+        // PRODUCTION FIX: Point SSE listener tunnel to live cloud link
+        const eventSource = new EventSource(`https://employees-management-lzfy.onrender.com/api/notifications/subscribe/${email}`);
 
         eventSource.addEventListener("REFRESH", (event) => {
             console.log("⚡ [REAL-TIME EVENT] Admin processed action! Syncing history layout dynamically...");
@@ -34,7 +35,8 @@ async function fetchProfile() {
         const email = sessionStorage.getItem("userEmail") || "rahul@ems.com";
         const token = sessionStorage.getItem("token");
 
-        const response = await fetch(`/api/employee/profile?email=${email}`, {
+        // PRODUCTION FIX: Map to running cloud server path instance
+        const response = await fetch(`https://employees-management-lzfy.onrender.com/api/employee/profile?email=${email}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -72,7 +74,6 @@ if (leaveForm) {
         const reason = document.getElementById('reason').value.trim();
         const token = sessionStorage.getItem("token");
 
-        // HIGH INDUSTRY INPUT DATE COGNITIVE VALIDATION
         if (!startDate || !endDate || !reason) {
             window.showToast("All application parameters are mandatory.", "warning");
             return;
@@ -81,7 +82,7 @@ if (leaveForm) {
         const startObj = new Date(startDate);
         const endObj = new Date(endDate);
         const todayObj = new Date();
-        todayObj.setHours(0,0,0,0); // Clear timestamp limits for structural checking
+        todayObj.setHours(0,0,0,0);
 
         if (startObj < todayObj) {
             window.showToast("Time Validation Error: Leave start date cannot be in the past.", "warning");
@@ -101,7 +102,8 @@ if (leaveForm) {
         };
 
         try {
-            const response = await fetch('/api/employee/leave/apply', {
+            // PRODUCTION FIX: Route data package bundle safely to Render live instance
+            const response = await fetch('https://employees-management-lzfy.onrender.com/api/employee/leave/apply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +117,6 @@ if (leaveForm) {
                 document.getElementById('leave-form').reset();
                 fetchLeaveHistory();
             } else {
-                // Intercept unified ErrorResponse objects from centralized backend handler
                 const data = await response.json();
                 window.showToast(`Request Rejected: ${data.error || 'Server validation failed'}`, "error");
             }
@@ -134,7 +135,8 @@ async function fetchLeaveHistory() {
 
         const cacheBuster = new Date().getTime();
 
-        const response = await fetch(`/api/employee/leave/history?t=${cacheBuster}`, {
+        // PRODUCTION FIX: Map stream logging request to production server
+        const response = await fetch(`https://employees-management-lzfy.onrender.com/api/employee/leave/history?t=${cacheBuster}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -175,5 +177,5 @@ async function fetchLeaveHistory() {
 
 function logout() {
     sessionStorage.clear();
-    window.location.href = '/login.html';
+    window.location.href = './login.html';
 }

@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = sessionStorage.getItem("userEmail") || "admin@ems.com";
 
     try {
-        const eventSource = new EventSource(`/api/notifications/subscribe/${email}`);
+        // PRODUCTION FIX: Live cloud EventSource mapping for real-time tracking
+        const eventSource = new EventSource(`https://employees-management-lzfy.onrender.com/api/notifications/subscribe/${email}`);
 
         eventSource.addEventListener("REFRESH", (event) => {
             console.log("⚡ [REAL-TIME EVENT] Database changed! Syncing data...");
@@ -40,18 +41,15 @@ async function fetchEmployees() {
         const token = sessionStorage.getItem("token");
         const cacheBuster = new Date().getTime();
 
-        // HIGH INDUSTRY FIX: Request endpoints now transmit pagination metadata
-        const response = await fetch(`/api/admin/employees?page=${currentPage}&size=${pageSize}&t=${cacheBuster}`, {
+        // PRODUCTION FIX: Embedded live cloud server parameters link
+        const response = await fetch(`https://employees-management-lzfy.onrender.com/api/admin/employees?page=${currentPage}&size=${pageSize}&t=${cacheBuster}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
-        // Spring Page Object contains server metrics wrap
         const pageData = await response.json();
-
-        // Extract array from standard dynamic container wrapper 'content'
         const employees = pageData.content || [];
 
         const allTables = document.querySelectorAll('table');
@@ -97,7 +95,8 @@ async function fetchLeaves() {
         const token = sessionStorage.getItem("token");
         const cacheBuster = new Date().getTime();
 
-        const response = await fetch(`/api/admin/leaves?t=${cacheBuster}`, {
+        // PRODUCTION FIX: Live cloud mapping engine
+        const response = await fetch(`https://employees-management-lzfy.onrender.com/api/admin/leaves?t=${cacheBuster}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -155,7 +154,8 @@ async function deleteEmployee(id) {
     if (confirm("Are you sure you want to delete this employee?")) {
         try {
             const token = sessionStorage.getItem("token");
-            const response = await fetch(`/api/admin/employee/${id}`, {
+            // PRODUCTION FIX: Intercept cloud engine deletion API
+            const response = await fetch(`https://employees-management-lzfy.onrender.com/api/admin/employee/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -178,7 +178,8 @@ async function deleteEmployee(id) {
 async function updateLeave(id, status) {
     try {
         const token = sessionStorage.getItem("token");
-        const response = await fetch(`/api/admin/leave/${id}?status=${status}`, {
+        // PRODUCTION FIX: Live cloud transaction proxy link
+        const response = await fetch(`https://employees-management-lzfy.onrender.com/api/admin/leave/${id}?status=${status}`, {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -237,7 +238,8 @@ function setupAddEmployeeForm() {
         const payload = { firstName, lastName, email, password, department, designation, salary };
 
         try {
-            const response = await fetch('/api/admin/employee/add', {
+            // PRODUCTION FIX: Connect to cloud addition deployment stream
+            const response = await fetch('https://employees-management-lzfy.onrender.com/api/admin/employee/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -263,5 +265,5 @@ function setupAddEmployeeForm() {
 
 function logout() {
     sessionStorage.clear();
-    window.location.href = '/login.html';
+    window.location.href = './login.html';
 }

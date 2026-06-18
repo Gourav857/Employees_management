@@ -1,4 +1,4 @@
-// js/auth.js - Fully Streamlined Modern Authentication Layer
+// js/auth.js - Enterprise Production Authentication Engine
 
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Page refresh rokne ke liye
@@ -22,7 +22,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     }
 
     try {
-        const response = await fetch('/api/auth/login', {
+        // PRODUCTION FIX: Target cloud Render server route engine
+        const response = await fetch('https://employees-management-lzfy.onrender.com/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +35,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         console.log("Backend Authorization Response Data:", data);
 
         if (response.ok) {
-            // Success Toast Trigger before redirection mapping
             window.showToast("Authentication successful! Loading your dashboard...", "success");
 
             // Multi-tab conflict safe allocation
@@ -47,9 +47,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             // Delayed redirection to let user see the success animation cleanly
             setTimeout(() => {
                 if (userRole === 'ROLE_ADMIN' || userRole === 'ADMIN') {
-                    window.location.href = '/admin-dashboard.html';
+                    window.location.href = './admin-dashboard.html';
                 } else if (userRole === 'ROLE_EMPLOYEE' || userRole === 'EMPLOYEE') {
-                    window.location.href = '/emp-dashboard.html';
+                    window.location.href = './emp-dashboard.html';
                 } else {
                     console.error("Unknown role framework received:", userRole);
                     window.showToast("Security Exception: Role not recognized by the system.", "error");
@@ -57,7 +57,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             }, 800);
 
         } else {
-            // INTEGRATION WITH GLOBAL EXCEPTION HANDLER: Capturing uniform error response schema
             window.showToast(data.error || "Invalid username or password configuration.", "error");
         }
     } catch (error) {
