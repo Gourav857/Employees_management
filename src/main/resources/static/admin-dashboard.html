@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMS - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-100 font-sans">
+
+<div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+<nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-md">
+    <h1 class="text-xl font-bold">EMS | Admin Panel</h1>
+    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-1.5 rounded text-sm font-semibold transition">Logout</button>
+</nav>
+
+<div class="max-w-6xl mx-auto my-8 px-4 space-y-8">
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+        <h2 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">👤 Add New Employee</h2>
+        <form id="add-employee-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">First Name</label>
+                <input type="text" id="emp-firstName" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Last Name</label>
+                <input type="text" id="emp-lastName" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Email (Login User ID)</label>
+                <input type="email" id="emp-email" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Password</label>
+                <input type="password" id="emp-password" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Department</label>
+                <input type="text" id="emp-dept" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. IT Engineering">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Designation</label>
+                <input type="text" id="emp-desg" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. Java Developer">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Salary (₹)</label>
+                <input type="number" id="emp-salary" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg text-sm transition duration-150 cursor-pointer">
+                    + Save Employee
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm">
+        <h2 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">📦 Total Employees</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-slate-200 text-slate-700 text-sm uppercase">
+                    <th class="p-3 text-center">ID</th>
+                    <th class="p-3 text-center">Name</th>
+                    <th class="p-3 text-center">Email</th>
+                    <th class="p-3 text-center">Department</th>
+                    <th class="p-3 text-center">Designation</th>
+                    <th class="p-3 text-center">Salary</th>
+                    <th class="p-3 text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="employees-table" class="divide-y text-slate-600">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm">
+        <h2 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">📅 Leave Applications</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-slate-200 text-slate-700 text-sm uppercase">
+                    <th class="p-3 text-center">ID</th>
+                    <th class="p-3 text-center">Employee</th>
+                    <th class="p-3 text-center">Dates</th>
+                    <th class="p-3 text-center">Reason</th>
+                    <th class="p-3 text-center">Status</th>
+                    <th class="p-3 text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody id="leaves-table" class="divide-y text-slate-600">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/toast.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
